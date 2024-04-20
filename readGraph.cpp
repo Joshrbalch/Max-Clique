@@ -71,23 +71,24 @@ vector<vector<int>> adjacencyMatrixToGraph(const vector<vector<int>>& adjacencyM
     return graph;
 }
 
-int main() {
-    string filename = "Q15V100.adjmat"; // Replace with the actual filename
-    try {
-        vector<vector<int>> adjacencyMatrix = readAdjacencyMatrixFromFile(filename);
-        vector<vector<int>> graph = adjacencyMatrixToGraph(adjacencyMatrix);
+// int main() {
+//     string filename = "Q15V100.adjmat"; // Replace with the actual filename
+//     try {
+//         vector<vector<int>> adjacencyMatrix = readAdjacencyMatrixFromFile(filename);
+//         vector<vector<int>> graph = adjacencyMatrixToGraph(adjacencyMatrix);
 
-        // Print the graph
-        for (size_t i = 0; i < graph.size(); ++i) {
-            cout << "Node " << i << " is connected to nodes: ";
-            for (size_t j = 0; j < graph[i].size(); ++j) {
-                cout << graph[i][j] << " ";
-            }
-            cout << endl;
-        }
-    } catch (const exception& e) {
-        cout << "Error: " << e.what() << endl;
-    }
+//         // Print the graph
+//         // for (size_t i = 0; i < graph.size(); ++i) {
+//         //     // cout << "Node " << i << " is connected to nodes: ";
+//         //     for (size_t j = 0; j < graph[i].size(); ++j) {
+//         //         cout << graph[i][j] << " ";
+//         //     }
+//         //     cout << endl;
+//         // }
 
-    return 0;
-}
+//     } catch (const exception& e) {
+//         cout << "Error: " << e.what() << endl;
+//     }
+
+//     return 0;
+// }

@@ -64,25 +64,63 @@ vector<int> findIndependentSet(const vector<vector<int>>& complementGraph) {
 }
 
 int main() {
+    cout << "Starting..." << endl;
     string filename = "Q60V1000.adjmat"; // Replace "your_filename_here.txt" with the actual filename
+    cout << "Reading adjacency matrix from file..." << endl;
     vector<vector<int>> adjacencyMatrix = readAdjacencyMatrixFromFile(filename);
     vector<vector<int>> graph = adjacencyMatrixToGraph(adjacencyMatrix);
 
-    // vector<vector<int>> graph = {
-    //     {1, 2},
-    //     {0, 2, 3},
-    //     {0, 1, 3},
-    //     {1, 2},
-    // };
+    // Debug: Print the adjacency matrix
+    cout << "Adjacency Matrix:" << endl;
+    for (const auto& row : adjacencyMatrix) {
+        for (int val : row) {
+            cout << val << " ";
+        }
+        cout << endl;
+    }
+
+    // Debug: Print the graph
+    cout << "Graph:" << endl;
+    for (int i = 0; i < graph.size(); ++i) {
+        cout << "Node " << i << ": ";
+        for (int val : graph[i]) {
+            cout << val << " ";
+        }
+        cout << endl;
+    }
 
     // Step 1: Find vertex cover
     unordered_set<int> vertexCover = findVertexCover(graph);
 
+    // Debug: Print the vertex cover
+    cout << "Vertex Cover:" << endl;
+    for (int node : vertexCover) {
+        cout << node << " ";
+    }
+    cout << endl;
+
     // Step 2: Construct complement graph
     vector<vector<int>> complementGraph = constructComplementGraph(graph);
 
+    // Debug: Print the complement graph
+    cout << "Complement Graph:" << endl;
+    for (int i = 0; i < complementGraph.size(); ++i) {
+        cout << "Node " << i << ": ";
+        for (int val : complementGraph[i]) {
+            cout << val << " ";
+        }
+        cout << endl;
+    }
+
     // Step 3: Find independent set in complement graph
     vector<int> independentSet = findIndependentSet(complementGraph);
+
+    // Debug: Print the independent set
+    cout << "Independent Set:" << endl;
+    for (int node : independentSet) {
+        cout << node << " ";
+    }
+    cout << endl;
 
     // Step 4: The independent set in the complement graph is the maximal clique in the original graph
     cout << "Maximal clique: ";
