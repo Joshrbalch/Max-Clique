@@ -64,7 +64,7 @@ vector<int> findIndependentSet(const vector<vector<int>>& complementGraph) {
 }
 
 int main() {
-    string filename = "Q15V100.adjmat"; // Replace "your_filename_here.txt" with the actual filename
+    string filename = "Q60V1000.adjmat"; // Replace "your_filename_here.txt" with the actual filename
     vector<vector<int>> adjacencyMatrix = readAdjacencyMatrixFromFile(filename);
     vector<vector<int>> graph = adjacencyMatrixToGraph(adjacencyMatrix);
 
