@@ -1,3 +1,6 @@
+#ifndef READGRAPH_CPP
+#define READGRAPH_CPP
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -12,6 +15,7 @@ vector<vector<int>> readAdjacencyMatrixFromFile(const string& filename) {
     ifstream file(filename);
     vector<vector<int>> adjacencyMatrix;
     if (!file.is_open()) {
+        cout << "Error: Unable to open file " << filename << endl;
         throw runtime_error("Unable to open file " + filename);
     }
 
@@ -92,3 +96,5 @@ vector<vector<int>> adjacencyMatrixToGraph(const vector<vector<int>>& adjacencyM
 
 //     return 0;
 // }
+
+#endif
