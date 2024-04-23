@@ -1,98 +1,128 @@
 #include <iostream>
 #include <vector>
 #include <unordered_set>
+#include <algorithm>
+#include <random>
 #include "readGraph.cpp"
 
 using namespace std;
 
-class Original {
+class MaxCliqueFinder {
 private:
-    // Function to check if a vertex can be added to the current clique
-    bool isSafeToAdd(int v, const vector<vector<int>>& graph, const unordered_set<int>& clique) {
-        for (int u : clique) {
-            if (graph[v][u] == 0) // If v is not adjacent to u, return false
-                return false;
-        }
-        return true;
-    }
+    unordered_set<int> Q;
+    unordered_set<int> Qmax;
 
-    // Function to find the maximal clique using a greedy approach
-    unordered_set<int> findMaxClique(const vector<vector<int>>& graph) {
-        unordered_set<int> currentClique;
+    // Function to find a vertex with maximum color from set R
+    int findMaxColorVertex(const unordered_set<int>& R, const vector<int>& colors) {
+        int maxColor = -1;
+        int maxColorVertex = -1;
 
-        for (int v = 0; v < graph.size(); ++v) {
-            // Try adding v to the current clique
-            if (isSafeToAdd(v, graph, currentClique)) {
-                currentClique.insert(v);
-                // Check if the current clique is larger than the maxClique found so far
-                if (currentClique.size() > maxClique.size()) {
-                    maxClique = currentClique;
-                }
-                // Recursively find the maximal clique by considering neighbors of v
-                unordered_set<int> neighbors;
-                for (int u : graph[v]) {
-                    if (currentClique.find(u) == currentClique.end()) {
-                        neighbors.insert(u);
-                    }
-                }
-                if (!neighbors.empty()) {
-                    // Recursively find the maximal clique containing neighbors of v
-                    unordered_set<int> neighborClique = currentClique;
-                    for (int neighbor : neighbors) {
-                        if (isSafeToAdd(neighbor, graph, neighborClique)) {
-                            neighborClique.insert(neighbor);
-                        }
-                    }
-                    // Update maxClique if the neighborClique is larger
-                    if (neighborClique.size() > maxClique.size()) {
-                        maxClique = neighborClique;
-                    }
-                }
-                // Remove v from the current clique for backtracking
-                currentClique.erase(v);
+        for (int vertex : R) {
+            if (colors[vertex] > maxColor) {
+                maxColor = colors[vertex];
+                maxColorVertex = vertex;
             }
         }
+        return maxColorVertex;
+    }
 
+    // Function to obtain a vertex-coloring of G(R ∩ Γ(p))
+    vector<int> getColoring(const unordered_set<int>& intersection, const vector<vector<int>>& graph, const vector<int>& colors) {
+        vector<int> newColors(graph.size(), -1);
 
-        return maxClique;
+        for (int vertex : intersection) {
+            newColors[vertex] = colors[vertex];
+        }
+
+        return newColors;
+    }
+
+    // Function to recursively find the maximal clique
+    void MaxClique(unordered_set<int> R, const vector<vector<int>>& graph, const vector<int>& colors) {
+        if (R.empty()) { 
+            return;
+        }
+
+        int p = findMaxColorVertex(R, colors);
+        R.erase(p);
+
+        if (Q.size() + colors[p] > Qmax.size()) {
+            Q.insert(p);
+            unordered_set<int> intersection;
+            for (int neighbor : graph[p]) {
+                if (R.find(neighbor) != R.end()) {
+                    intersection.insert(neighbor);
+                }
+            }
+
+            if (!intersection.empty()) {
+                vector<int> newColors = getColoring(intersection, graph, colors);
+                MaxClique(intersection, graph, newColors);
+            } 
+            
+            else if (Q.size() > Qmax.size()) {
+                Qmax = Q;
+            }
+            Q.erase(p);
+        } 
+        
+        else {
+            return;
+        }
     }
 
 public:
-    unordered_set<int> maxClique;
+    unordered_set<int> findMaxClique(const vector<vector<int>>& graph, const vector<int>& colors) {
+        unordered_set<int> R;
 
-    // Function to find the maximal clique in the graph from a file
-    unordered_set<int> run(const string& filename) {
-        vector<vector<int>> adjacencyMatrix = readAdjacencyMatrixFromFile(filename);
-        return findMaxClique(adjacencyMatrix);
-    }
-
-    void print() {
-        cout << "Maximal clique: ";
-        for (int node : maxClique) {
-            cout << node << " ";
+        for (int i = 0; i < graph.size(); ++i) {
+            R.insert(i);
         }
-        cout << endl;
 
-        cout << "Size of maximal clique: " << maxClique.size() << endl << endl;
+        MaxClique(R, graph, colors);
+        return Qmax;
     }
 };
 
-// int main() {
-//     string filename;
+// Function to generate random colors for the vertices
+vector<int> generateRandomColors(int numVertices, int numColors) {
+    vector<int> colors(numVertices);
 
-//     cout << "Enter the filename: ";
-//     cin >> filename;
+    for (int i = 0; i < numVertices; ++i) {
+        colors[i] = rand() % numColors; // Generate a random color between 0 and numColors-1
+    }
 
-//     MaxCliqueFinder finder;
-//     unordered_set<int> maxClique = finder.findMaxCliqueFromFile(filename);
+    return colors;
+}
 
-//     cout << "Maximal clique: ";
-//     for (int node : maxClique) {
-//         cout << node << " ";
-//     }
-//     cout << endl;
+int main() {
+    // Test Graph
+    // vector<vector<int>> graph = {
+    //     {0, 1, 1, 0, 1},
+    //     {1, 0, 1, 1, 0},
+    //     {1, 1, 0, 1, 0},
+    //     {0, 1, 1, 0, 1},
+    //     {1, 0, 0, 1, 0}
+    // };
 
-//     cout << "Size of maximal clique: " << maxClique.size() << endl;
+    vector<vector<int>> graph = readAdjacencyMatrixFromFile("Q60V1000.adjmat");
 
-//     return 0;
-// }
+    int numVertices = graph.size();
+    int numColors = numVertices; // Number of colors to use
+
+    vector<int> colors = generateRandomColors(numVertices, numColors);
+
+    MaxCliqueFinder finder;
+    unordered_set<int> maxClique = finder.findMaxClique(graph, colors);
+
+    cout << "Maximal clique: ";
+    for (int node : maxClique) {
+        cout << node << " ";
+    }
+
+    cout << endl;
+
+    cout << "Size of maximal clique: " << maxClique.size() << endl;
+
+    return 0;
+}
