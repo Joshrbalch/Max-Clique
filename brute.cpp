@@ -65,26 +65,33 @@ public:
     }
 };
 
-// int main() {
-//     // Example graph
-//     vector<vector<int>> graph = {
-//         {1, 2},
-//         {0, 2, 3},
-//         {0, 1, 3},
-//         {1, 2},
-//         {1,3},
-//     };
+int main() {
+    // Example graph
+    vector<vector<int>> graph = {
+        {1, 2},
+        {0, 2, 3},
+        {0, 1, 3},
+        {1, 2},
+        {1,3},
+    };
 
-//     BruteForceMaxCliqueFinder cliqueFinder;
-//     vector<int> maxClique = cliqueFinder.findMaxClique(graph);
+    // string filename;
 
-//     cout << "Maximum clique: ";
-//     for (int node : maxClique) {
-//         cout << node << " ";
-//     }
-//     cout << endl;
+    // cout << "Enter the filename: ";
+    // cin >> filename;
 
-//     cout << "Size of the maximum clique: " << maxClique.size() << endl;
+    // vector<vector<int>> graph = readAdjacencyMatrixFromFile(filename);
 
-//     return 0;
-// }
+    Brute cliqueFinder;
+    vector<int> maxClique = cliqueFinder.run(graph);
+
+    cout << "Maximum clique: ";
+    for (int node : maxClique) {
+        cout << node << " ";
+    }
+    cout << endl;
+
+    cout << "Size of the maximum clique: " << maxClique.size() << endl;
+
+    return 0;
+}

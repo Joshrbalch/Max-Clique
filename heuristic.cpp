@@ -97,25 +97,23 @@ public:
     }
 };
 
-// int main() {
-//     cout << "Starting..." << endl;
+int main() {
+    string filename;
 
-//     string filename;
+    cout << "Enter the filename: ";
+    cin >> filename;
 
-//     cout << "Enter the filename: ";
-//     cin >> filename;
+    Heuristic cliqueFinder;
+    vector<int> maximalClique = cliqueFinder.run(filename);
 
-//     MaximalCliqueFromVertexCover cliqueFinder;
-//     vector<int> maximalClique = cliqueFinder.findMaximalClique(filename);
+    // Debug: Print the independent set
+    cout << "Maximal Clique:" << endl;
+    for (int node : maximalClique) {
+        cout << node << " ";
+    }
+    cout << endl;
 
-//     // Debug: Print the independent set
-//     cout << "Maximal Clique:" << endl;
-//     for (int node : maximalClique) {
-//         cout << node << " ";
-//     }
-//     cout << endl;
+    cout << "Size of maximal clique for file " << filename << ": " << maximalClique.size() << endl;
 
-//     cout << "Size of maximal clique for file " << filename << ": " << maximalClique.size() << endl;
-
-//     return 0;
-// }
+    return 0;
+}

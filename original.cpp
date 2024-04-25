@@ -105,7 +105,12 @@ int main() {
     //     {1, 0, 0, 1, 0}
     // };
 
-    vector<vector<int>> graph = readAdjacencyMatrixFromFile("Q60V1000.adjmat");
+    string filename;
+
+    cout << "Enter the filename: ";
+    cin >> filename;
+
+    vector<vector<int>> graph = readAdjacencyMatrixFromFile(filename);
 
     int numVertices = graph.size();
     int numColors = numVertices; // Number of colors to use

@@ -1,4 +1,60 @@
 Heuristic Algorithm:
-    The defined vertex cover heuristic-based algorithm is in heuristic.cpp.
+    The defined vertex cover heuristic-based algorithm is located in heuristic.cpp.
+
+    To run:
+        use g++ heuristic.cpp
+        run outputed file
+        enter filename containing adjacency matrix
+
+    Private Members:
+        findVertexCover(): This function finds a vertex cover using a 2-approximation algorithm. It iterates through each vertex and its neighbors, selecting the first unvisited pair encountered.
+
+        constructComplementGraph(): This function constructs the complement graph of the input graph, where edges that are not present in the original graph are added.
+
+        findIndependentSet(): This function finds an independent set in the complement graph. It iterates through each vertex and adds it to the independent set if it is not adjacent to any vertex already in the set.
+
+    run() Function: This function executes the heuristic algorithm to find a maximal clique. It performs the following steps:
+        Step 1: Find a vertex cover.
+        Step 2: Construct the complement graph.
+        Step 3: Find an independent set in the complement graph, which serves as the maximal clique.
+
+    print() Function: This function prints the maximal clique found and its size.
 
 Original Algorithm:
+    This algorithm is located in original.cpp.
+
+    To run:
+        use g++ original.cpp
+        run outputed file
+        enter filename containing adjacency matrix
+
+    MaxCliqueFinder Class: This class encapsulates the algorithm for finding the maximal clique.
+
+    Private Members:
+        Q: A set representing the current candidate maximal clique.
+        Qmax: A set representing the current maximum clique found so far.
+
+    findMaxColorVertex() Function: This function finds a vertex with the maximum color from a given set R. The coloring of vertices is based on an input vector of colors.
+
+    getColoring() Function: This function obtains a vertex-coloring of the neighborhood of a vertex p in the graph. It returns a vector of colors based on the intersection of the vertices in R and the neighborhood of p.
+
+    MaxClique() Function: This is the core recursive function that finds the maximal clique. It takes a set R of remaining vertices, the graph, and the colors of vertices as input. It recursively explores the graph to find the maximal clique.
+
+    generateRandomColors() Function: This function generates random colors for the vertices of the graph. The number of colors used is equal to the number of vertices in the graph.
+
+Brute Force Algorithm:
+    This algorithm is located in bruce.cpp.
+
+    To run:
+        use g++ brute.cpp
+        run outputed file
+
+    Brute Class: This class encapsulates the algorithm for finding the maximum clique.
+
+    Private Members:
+        isClique(): This function checks if a given subset of vertices forms a clique in the graph by verifying if all pairs of vertices are connected.
+        generateSubsets(): This function generates all possible subsets of a given size from the vertices of the graph.
+
+    run() Function: This function iterates through all possible clique sizes from 1 to the number of vertices. For each size, it generates all possible subsets and checks if each subset forms a clique. It keeps track of the maximum clique found.
+
+    print() Function: This function prints the maximum clique found and its size.
